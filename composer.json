@@ -1,0 +1,11 @@
+{
+	"require-dev": {
+        "behat/behat": "3.*@stable"
+	},
+	"autoload": {
+		"psr-4":{
+			"math\\": "app/math"
+		}
+	}
+}
+
