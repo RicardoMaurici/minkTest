@@ -1,47 +1,24 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
-use math\PHPadder;
+use Behat\Behat\Context\ClosuredContextInterface,
+    Behat\Behat\Context\TranslatedContextInterface,
+    Behat\Behat\Context\BehatContext,
+    Behat\Behat\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode,
+    Behat\Gherkin\Node\TableNode;
 
-/**
- * Defines application features from the specific context.
- */
-class FeatureContext implements Context, SnippetAcceptingContext
+use Behat\MinkExtension\Context\MinkContext;
+
+class FeatureContext extends MinkContext
 {
-    private $Adder;
+
     /**
-    * @Given /^I have the number (\d+) and the number (\d+)$/
+    * @Then /^I wait for the suggestion box to appear$/
     */
-    public function iHaveTheNumberAndTheNumber($a, $b)
+    public function iWaitForTheSuggestionBoxToAppear()
     {
-        $this->Adder = new PHPadder($a, $b);
-    }
-    /**
-     * @When /^I add them together$/
-     */
-    public function iAddThemTogether()
-    {
-        $this->Adder->add();
-    }
-    /**
-     * @Given /^I have a third number of (\d+)$/
-     */
-    public function iHaveAThirdNumberOf($c)
-    {
-        $this->Adder->setThird($c);
-    }
-    /**
-     * @Then /^I should get (\d+)$/
-     */
-    public function iShouldGet($sum)
-    {
-        //echo $this->Adder->nome;
-        if ($this->Adder->getSum() != $sum) {
-            throw new Exception("Valor da soma atual: " . $this->Adder->getSum());
-        }
-        $this->Adder->display();
+        $this->getSession()->wait(5000,
+            "$('.suggestions-results').children().length > 0"
+        );
     }
 }

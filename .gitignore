@@ -2,3 +2,4 @@
 /bin/*
 *.phar
 *.lock
+.DS_Store
